@@ -11,7 +11,7 @@ Además se usa un Arduino el cual lo único que se encarga de hacer es recolecta
 
 # Librerías externas.
 
-Claramente se deben de usar las librerías para la Navio+ https://docs.emlid.com/navio/Navio-dev/navio-repository-cloning/  ,además las librerías para usar los puertos Rs-232, esta librería me parece muy buena y fácil de usar: http://www.teuniz.net/RS-232/index.html , para el cálculo de los controladores se usa una librería externa para las operaciones matemáticas con matrices http://eigen.tuxfamily.org/ 
+Claramente se deben de usar las librerías para la Navio+ https://docs.emlid.com/navio/Navio-dev/navio-repository-cloning/  ,además las librerías para usar los puertos Rs-232, esta librería me parece muy buena y fácil de usar: http://www.teuniz.net/RS-232/index.html , para el cálculo de matrices del controladores se usa una librería externa para las operaciones matemáticas con matrices http://eigen.tuxfamily.org/ , estan son las librerias bases para que el robot este operativo
 
 # Calibración Magnética.
 

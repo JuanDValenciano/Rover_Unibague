@@ -1,0 +1,23 @@
+subplot(411)
+plot(tiempo,W_Der)
+grid on 
+subplot(412)
+grid on
+plot(tiempo,I_Der)
+grid on
+subplot(413)
+plot(tiempo,I_Der_Estimada)
+grid on
+subplot(414)
+plot(tiempo,Ut_Der)
+grid on
+
+xlabel('Time [S]')
+subplot(411)
+ylabel('W [r/s]')
+subplot(412)
+ylabel('I [A]')
+subplot(413)
+ylabel('I [A]')
+subplot(414)
+ylabel('Control Effort')

@@ -1,0 +1,223 @@
+function [Salida,x_est]   = fcn(Wt,cor,w)
+
+ 
+
+Kc=[18.566564 0.710734];
+
+Ki=-3.786408;
+
+ 
+
+ 
+
+persistent error error_1 Ui Ui_1 Ut xhat y_1 P;
+
+ 
+
+if isempty(error); error=0;   end;
+
+if isempty(error_1); error_1=0;   end;
+
+if isempty(Ui); Ui=0;   end;
+
+if isempty(Ui_1); Ui_1=0;   end;
+
+if isempty(Ut); Ut=0;   end;
+
+if isempty(xhat); xhat=[0;0];   end;  % initial estimate
+
+if isempty(y_1); y_1=0;   end;
+
+if isempty(P); P=[10 0;0 10];   end;
+
+ 
+
+ 
+
+% 
+
+J=0.006294;
+
+Km=0.046815;
+
+La=0.0492930;
+
+Ra=0.528382;
+
+b=2.062158e-5;
+
+Tl=6.765860e-9;
+
+N=16;
+
+ 
+
+  
+
+  G=[0.989448962818569   0.020483932016461;...
+
+  -0.669568138205662   0.517271756294979]*1.1;
+
+    H=[ 0.013824611679569;
+
+   0.893999145641896];
+
+    Cd=[1 0;0 1];
+
+    Dd=0;
+
+  
+
+ L=[1.5190;12.8873];
+
+ 
+
+%% Variales de KALMAN
+
+Q1=1.5;
+
+Q2=1.5;
+
+R1=0.5;
+
+R2=2;
+
+Q=[Q1 0;0 Q2];
+
+R=[R1 0;0 R2];
+
+ 
+
+%% Controlador por realimentación de estados
+
+% Yt=[w;cor];
+
+% error=Wt-w;
+
+% Ui=(error_1*Ki+Ui_1);
+
+% Ut=-Ui-Kc(1)*Yt(1)-Kc(2)*Yt(2);
+
+% Ut=Ut*100/12.37; %Volt2PWM
+
+% 
+
+% if(Ut>100)
+
+%     Ut=100;
+
+% end
+
+% 
+
+% if(Ut<-100)
+
+%     Ut=-100;
+
+% end
+
+% 
+
+% error_1=error;
+
+% Ui_1=Ui;
+
+% 
+
+% Salida=Ut;
+
+ 
+
+ 
+
+%% Controlador por realimentación de estados con observador
+
+ 
+
+% % % Estimador
+
+%   y=y_1;
+
+%   u=Ut*12.37/100;
+
+%   yhat=Cd*xhat + Dd*u;
+
+%   xhat=G*xhat + H*u + L*(y-yhat);
+
+%   x_est=xhat;
+
+  
+
+  
+
+ % Filtro de KALMAN
+
+ Yt=[w;cor];
+
+ u=Ut*12.37/100;
+
+ % 1) Estimación
+
+    xhat=G*xhat + H*u;
+
+    P=G*P*G'+Q;
+
+ % 2) Compute K
+
+    K=P*Cd'*inv(R+Cd*P*Cd');
+
+ % 3) Update
+
+    xhat=xhat+K*(Yt-Cd*xhat);
+
+    P=(eye(2)-K*Cd)*P;
+
+    x_est=xhat;
+
+    
+
+ 
+
+ % Controlador
+
+%Yt=[w;cor]; %% Control con realimentación de estados
+
+%Yt=[w;x_est(2)]; % Control con observador de corriente
+
+Yt=x_est; %Control con filtros de Kalman
+
+error=Wt-w;
+
+Ui=(error_1*Ki+Ui_1);
+
+Ut=-Ui-Kc(1)*Yt(1)-Kc(2)*Yt(2);
+
+Ut=Ut*100/12.37; %Volt2PWM
+
+ 
+
+if(Ut>100)
+
+    Ut=100;
+
+end
+
+ 
+
+if(Ut<-100)
+
+    Ut=-100;
+
+end
+
+ 
+
+error_1=error;
+
+Ui_1=Ui;
+
+y_1=w;
+
+trace(P)
+
+Salida=Ut;

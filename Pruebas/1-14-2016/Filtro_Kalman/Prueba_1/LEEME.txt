@@ -1,0 +1,8 @@
+1; W_real
+2: W_estimada
+3: I real
+4: Iestimada
+5 accion de control 
+todo sobre el motor derecho.
+
+la real no se estable donde deberia ser que es 6 Rad/seg, verifar el codgio que este bien.

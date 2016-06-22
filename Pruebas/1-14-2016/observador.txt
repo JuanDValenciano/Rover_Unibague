@@ -1,0 +1,94 @@
+Anexo el código del controlador con observador de corriente.
+
+function [Salida,x_est]   = fcn(Wt,cor,w)
+ 
+Kc=[18.566564 0.710734];
+Ki=-3.786408;
+ 
+ 
+persistent error error_1 Ui Ui_1 Ut xhat y_1;
+ 
+if isempty(error); error=0;   end;
+if isempty(error_1); error_1=0;   end;
+if isempty(Ui); Ui=0;   end;
+if isempty(Ui_1); Ui_1=0;   end;
+if isempty(Ut); Ut=0;   end;
+if isempty(xhat); xhat=[0;0];   end;  % initial estimate
+if isempty(y_1); y_1=0;   end;
+ 
+ 
+ 
+J=0.006294;
+Km=0.046815;
+La=0.0492930;
+Ra=0.528382;
+b=2.062158e-5;
+Tl=6.765860e-9;
+N=16;
+ 
+% Planta
+  A=[-b/J Km/(N*J);...
+     -Km*N/La -Ra/La];
+  B=[0;1/La];
+  C=[1 0];
+  D=0;
+  
+  G=[0.988673239281274   0.020751349471045;...
+  -0.666975833411834   0.530348840455572];
+H=[ 0.013337052750292;
+   0.863858112719282];
+Cd=[1 0];
+Dd=0;
+  
+ L=[1.5190;12.8873];
+	
+%% Controlador por realimentación de estados
+% Yt=[w;cor];
+% error=Wt-w;
+% Ui=(error_1*Ki+Ui_1);
+% Ut=-Ui-Kc(1)*Yt(1)-Kc(2)*Yt(2);
+% Ut=Ut*100/12.37; %Volt2PWM
+% 
+% if(Ut>100)
+%     Ut=100;
+% end
+% 
+% if(Ut<-100)
+%     Ut=-100;
+% end
+% 
+% error_1=error;
+% Ui_1=Ui;
+% 
+% Salida=Ut;
+ 
+ 
+%% Controlador por realimentación de estados con observador
+ IMPORTANTE que xhat debe incializarce en [0,0]
+% Estimador
+  y=y_1;
+  u=Ut*12.37/100;  % EN IMPLEMENTACIón ES: u=Ut;
+  yhat=Cd*xhat + Dd*u;
+  xhat=G*xhat + H*u + L*(y-yhat);
+  x_est=xhat;
+ 
+% Controlador
+Yt=[w;x_est(2)];
+error=Wt-w;
+Ui=(error_1*Ki+Ui_1);
+Ut=-Ui-Kc(1)*Yt(1)-Kc(2)*Yt(2);
+Ut=Ut*100/12.37; %Volt2PWM ESTO NO VA EN LA IMPLEMENTACION
+ 
+if(Ut>100)
+    Ut=100;
+end
+ 
+if(Ut<-100)
+    Ut=-100;
+end
+ 
+error_1=error;
+Ui_1=Ui;
+y_1=w;
+ 
+Salida=Ut;

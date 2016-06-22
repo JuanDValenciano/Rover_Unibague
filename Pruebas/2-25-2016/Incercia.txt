@@ -1,0 +1,5 @@
+Buenos dias,
+
+Les envio unas graficas que genere para calcular aprox. el momento de Inercia I, segun la grafica I  es aproximadamente 
+
+= 15 kg-m2

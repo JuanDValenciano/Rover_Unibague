@@ -1,0 +1,3 @@
+para esta prueba, se estimaron la velocidad angular y la corriente.
+pero para hacer el control solo se tuvo en cuenta la estimacion de la corriente.
+
