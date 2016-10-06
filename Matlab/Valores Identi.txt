@@ -1,0 +1,8 @@
+4/6/2016.
+
+motoro derecho.
+Estimation result(s):
+    J_r = 3.5674e-06
+    Km_r = 1.2532e-05
+    La_r = 0.045144
+    b_r = 9.3112e-07
