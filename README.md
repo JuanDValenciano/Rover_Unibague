@@ -13,7 +13,9 @@ Además se usa un Arduino el cual lo único que se encarga de hacer es recolecta
 
 Claramente se deben de usar las librerías para la Navio+ https://docs.emlid.com/navio/Navio-dev/navio-repository-cloning/  ,además las librerías para usar los puertos Rs-232, esta librería me parece muy buena y fácil de usar: http://www.teuniz.net/RS-232/index.html , para el cálculo de matrices del controladores se usa una librería externa para las operaciones matemáticas con matrices http://eigen.tuxfamily.org/ , estan son las librerias bases para que el robot este operativo
 
+# Rutas de los archivos.
+el código que gobierna el robot está en la ruta 
 
+/Desktop/Rover/Control_LQR/Control_Kalman_Yaw.cpp
 
- 
-
+es el programa principal del robot, cada vez que se haga una modificación se debe de compilar este archivo con la palabra “make”, éste crea un archivo llamado Rover, ese nombre se debe de cambiar por PID y moverlo a la dirección /Desktop/Rover/ , luego reiniciar el robot con el comando “sudo reboot” 
